@@ -1,31 +1,25 @@
-"use strict";
+import { Invoice } from './classes/Invoice.js';
+import { Payment } from './classes/Payment.js';
+import { ListTemplate } from './classes/ListTemplate.js';
 // Form
-var form = document.querySelector('.new-item-form');
+const form = document.querySelector('.new-item-form');
 // Inputs
-var type = document.querySelector('#type');
-var tofrom = document.querySelector('#tofrom');
-var details = document.querySelector('#details');
-var amount = document.querySelector('#amount');
+const type = document.querySelector('#type');
+const tofrom = document.querySelector('#tofrom');
+const details = document.querySelector('#details');
+const amount = document.querySelector('#amount');
+// list template
+const ul = document.querySelector('ul');
+const list = new ListTemplate(ul);
 // Submit Form
-form.addEventListener('submit', function (e) {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(type.value, tofrom.value, details.value, amount.valueAsNumber);
-});
-// Classes
-var Invoice = /** @class */ (function () {
-    function Invoice(c, d, a) {
-        this.client = c;
-        this.details = d;
-        this.amount = a;
+    let doc;
+    if (type.value === 'invoice') {
+        doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
     }
-    Invoice.prototype.format = function () {
-        return {
-            client: this.client,
-            details: this.details,
-            amount: this.amount,
-        };
-    };
-    return Invoice;
-}());
-var invOne = new Invoice('Reis', 'payment', 100);
-console.log(invOne.format());
+    else {
+        doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
+    }
+    list.render(doc, type.value, 'end');
+});

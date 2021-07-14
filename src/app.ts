@@ -1,3 +1,7 @@
+import { HasFormatter } from './interfaces/HasFormatter.js';
+import { Invoice } from './classes/Invoice.js';
+import { Payment } from './classes/Payment.js';
+import { ListTemplate } from './classes/ListTemplate.js';
 // Form
 const form = document.querySelector('.new-item-form') as HTMLFormElement;
 // Inputs
@@ -6,41 +10,22 @@ const tofrom = document.querySelector('#tofrom') as HTMLInputElement;
 const details = document.querySelector('#details') as HTMLInputElement;
 const amount = document.querySelector('#amount') as HTMLInputElement;
 
+// list template
+const ul = document.querySelector('ul')!;
+const list = new ListTemplate(ul)
 
 // Submit Form
 form.addEventListener('submit', (e: Event) => {
    e.preventDefault();
 
-   console.log(
-      type.value,
-      tofrom.value,
-      details.value,
-      amount.valueAsNumber,
-   )
+   let doc: HasFormatter;
+
+   if (type.value === 'invoice') {
+      doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+   }
+   else {
+      doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
+   }
+
+   list.render(doc, type.value, 'end')
 });
-
-
-// Classes
-class Invoice {
-   client: string;
-   details: string;
-   amount: number;
-
-   constructor(c: string, d: string, a: number) {
-      this.client = c;
-      this.details = d;
-      this.amount = a;
-   }
-
-   format() {
-      return {
-         client: this.client,
-         details: this.details,
-         amount: this.amount,
-      }
-   }
-}
-
-const invOne = new Invoice('Reis', 'payment', 100);
-
-console.log(invOne.format())
