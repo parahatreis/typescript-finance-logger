@@ -15,8 +15,9 @@ const list = new ListTemplate(ul);
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     let doc;
+    let values = [tofrom.value, details.value, amount.valueAsNumber];
     if (type.value === 'invoice') {
-        doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+        doc = new Invoice(...values);
     }
     else {
         doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
@@ -57,3 +58,7 @@ const data2 = {
     }
 };
 console.log(data1, data2);
+// Tuples
+let tupleArr = ['string', 2, false];
+tupleArr[0] = '2';
+console.log(tupleArr);

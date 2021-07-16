@@ -19,9 +19,10 @@ form.addEventListener('submit', (e: Event) => {
    e.preventDefault();
 
    let doc: HasFormatter;
+   let values: [string, string, number] = [tofrom.value, details.value, amount.valueAsNumber];
 
    if (type.value === 'invoice') {
-      doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+      doc = new Invoice(...values);
    }
    else {
       doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
@@ -69,3 +70,9 @@ const data2: Resource<object> = {
 }
 
 console.log(data1, data2)
+
+// Tuples
+let tupleArr :[string, number, boolean] = ['string',2,false];
+tupleArr[0] = '2';
+
+console.log(tupleArr)
